@@ -1,4 +1,5 @@
 import logo from '/logo-7s.png'
+import { makeWhatsAppLink, WHATSAPP_MESSAGES } from '../utils/whatsapp'
 
 export default function Footer() {
   return (
@@ -15,7 +16,7 @@ export default function Footer() {
         <li><a href="#servicos">Serviços</a></li>
       </ul>
       <div className="footer-contact">
-        <a href="https://wa.me/5533998542884" target="_blank" rel="noreferrer">WhatsApp</a>
+        <a href={makeWhatsAppLink(WHATSAPP_MESSAGES.footer)} target="_blank" rel="noreferrer">WhatsApp</a>
         <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
       </div>
     </footer>

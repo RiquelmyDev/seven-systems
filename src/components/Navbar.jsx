@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import logo from '/logo-7s.png'
-
-const WA = 'https://wa.me/5533998542884?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20a%20Seven%20Systems.'
+import { makeWhatsAppLink, WHATSAPP_MESSAGES } from '../utils/whatsapp'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -27,7 +26,14 @@ export default function Navbar() {
           <li><a href="#pilares">Pilares</a></li>
           <li><a href="#servicos">Serviços</a></li>
         </ul>
-        <a href={WA} target="_blank" rel="noreferrer" className="nav-cta">Falar com a gente</a>
+        <a
+          href={makeWhatsAppLink(WHATSAPP_MESSAGES.navigation)}
+          target="_blank"
+          rel="noreferrer"
+          className="nav-cta"
+        >
+          Falar com a gente
+        </a>
         <button className="hamburger" onClick={() => setOpen(o => !o)} aria-label="Menu">
           <span /><span /><span />
         </button>
@@ -38,7 +44,13 @@ export default function Navbar() {
         <a href="#quem-somos" onClick={close}>Quem somos</a>
         <a href="#pilares" onClick={close}>Pilares</a>
         <a href="#servicos" onClick={close}>Serviços</a>
-        <a href={WA} target="_blank" rel="noreferrer" className="nav-cta" style={{ textAlign: 'center' }}>
+        <a
+          href={makeWhatsAppLink(WHATSAPP_MESSAGES.navigation)}
+          target="_blank"
+          rel="noreferrer"
+          className="nav-cta"
+          style={{ textAlign: 'center' }}
+        >
           Falar com a gente
         </a>
       </div>

@@ -17,7 +17,7 @@ export default function Problema() {
         "Seu cliente te procura no Google <span className="prob-accent">antes</span> de ligar."
       </p>
       <p className="prob-line">
-        "Se não encontra nada — ou encontra algo feio — ele escolhe o concorrente."
+        "Se não encontra nada — ou encontra algo desatualizado — ele escolhe o concorrente."
       </p>
     </section>
   )

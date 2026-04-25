@@ -16,7 +16,7 @@ export default function QuemSomos() {
     <section id="quem-somos" ref={ref}>
       <div className="qs-text reveal">
         <h2>Quem somos</h2>
-        <p>A Seven Systems nasceu com um propósito simples: levar tecnologia de verdade para negócios locais. Não templates prontos. Não soluções genéricas. Cada projeto é pensado do zero para o negócio do cliente.</p>
+        <p>A Seven Systems nasceu com um propósito simples: levar tecnologia de verdade para negócios locais. Sem templates prontos. Sem soluções genéricas. Cada projeto é pensado do zero para o negócio do cliente.</p>
         <p>Somos uma empresa jovem, com visão global e execução local. Trabalhamos com as ferramentas mais modernas do mercado para entregar sites e sistemas que geram resultado real.</p>
         <p>Fundada em 2026 — Vale do Aço, MG — Technology Platform.</p>
       </div>

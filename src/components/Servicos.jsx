@@ -1,25 +1,24 @@
 import { useEffect, useRef } from 'react'
-
-const WA_BASE = 'https://wa.me/5533998542884?text='
+import { makeWhatsAppLink } from '../utils/whatsapp'
 
 const SERVICOS = [
   {
     badge: 'Básico', name: 'Landing Page', featured: false,
-    desc: 'Página objetiva com seus serviços, fotos, localização e botão direto pro WhatsApp.',
+    desc: 'Página objetiva com seus serviços, fotos, localização e botão direto para o WhatsApp.',
     ideal: 'Negócios que precisam de presença imediata',
-    msg: 'Olá%2C%20tenho%20interesse%20na%20Landing%20Page.',
+    msg: 'Olá! Tenho interesse na Landing Page da Seven Systems.',
   },
   {
     badge: 'Profissional', name: 'Site Institucional', featured: true,
     desc: 'Site completo com múltiplas seções, formulário de contato e integração com Google Maps.',
     ideal: 'Negócios que querem transmitir credibilidade',
-    msg: 'Olá%2C%20tenho%20interesse%20no%20Site%20Institucional.',
+    msg: 'Olá! Tenho interesse no Site Institucional da Seven Systems.',
   },
   {
     badge: 'Presença Digital', name: 'Presença Completa', featured: false,
     desc: 'Site institucional + organização completa da presença digital: Google, redes sociais e mais.',
     ideal: 'Negócios prontos para crescer no digital',
-    msg: 'Olá%2C%20tenho%20interesse%20no%20pacote%20Presen%C3%A7a%20Completa.',
+    msg: 'Olá! Tenho interesse no pacote Presença Completa da Seven Systems.',
   },
 ]
 
@@ -48,7 +47,7 @@ export default function Servicos() {
             <div className="serv-name">{s.name}</div>
             <div className="serv-desc">{s.desc}</div>
             <div className="serv-ideal">Ideal para: {s.ideal}</div>
-            <a href={`${WA_BASE}${s.msg}`} target="_blank" rel="noreferrer" className="serv-cta">
+            <a href={makeWhatsAppLink(s.msg)} target="_blank" rel="noreferrer" className="serv-cta">
               Quero esse
             </a>
           </div>

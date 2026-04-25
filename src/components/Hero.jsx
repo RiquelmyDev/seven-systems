@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import logo from '/logo-7s.png'
-
-const WA = 'https://wa.me/5533998542884?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20a%20Seven%20Systems.'
+import { makeWhatsAppLink, WHATSAPP_MESSAGES } from '../utils/whatsapp'
 
 export default function Hero() {
   const canvasRef = useRef(null)
   const logoWrapRef = useRef(null)
   const heroRightRef = useRef(null)
+  const sectionRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -164,9 +164,14 @@ export default function Hero() {
       L.posA.needsUpdate = true
     }
 
+    let isVisible = true
+    const visIO = new IntersectionObserver(([e]) => { isVisible = e.isIntersecting }, { threshold: 0 })
+    visIO.observe(sectionRef.current)
+
     let animId
     function animate() {
       animId = requestAnimationFrame(animate)
+      if (!isVisible) return
       const dt = Math.min(clock.getDelta(), 0.05)
       smlM.x += (rawM.x - smlM.x) * LERP; smlM.y += (rawM.y - smlM.y) * LERP
       updateM3D()
@@ -185,6 +190,7 @@ export default function Hero() {
 
     return () => {
       cancelAnimationFrame(animId)
+      visIO.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouseMove)
       renderer.dispose()
@@ -223,7 +229,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section id="hero">
+    <section id="hero" ref={sectionRef}>
       <div className="hero-left">
         <div className="hero-eyebrow">Seven Systems</div>
         <h1 className="hero-headline">
@@ -233,7 +239,14 @@ export default function Hero() {
           Criamos sites e soluções digitais para negócios locais que querem ser encontrados, lembrados e escolhidos.
         </p>
         <div className="hero-btns">
-          <a href={WA} target="_blank" rel="noreferrer" className="btn-primary">Falar com a gente</a>
+          <a
+            href={makeWhatsAppLink(WHATSAPP_MESSAGES.hero)}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-primary"
+          >
+            Falar com a gente
+          </a>
           <a href="#servicos" className="btn-secondary">Conheça nosso trabalho</a>
         </div>
       </div>

@@ -241,7 +241,9 @@ nav.scrolled {
 .colonnade::-webkit-scrollbar { display: none; }
 .pilar-col {
   display: flex; flex-direction: column; align-items: center;
-  flex: 1; min-width: 120px; max-width: 200px;
+  /* Keep all pillars visually consistent (same wrap, same icon scale). */
+  flex: 0 0 170px;
+  width: 170px;
   opacity: 0;
   transform: translateY(60px);
   transition: opacity 0.9s cubic-bezier(.22,1,.36,1),
@@ -249,7 +251,8 @@ nav.scrolled {
 }
 .pilar-col.visible { opacity: 1; transform: translateY(0); }
 .col-svg {
-  width: 100%; max-width: 110px; height: auto;
+  width: clamp(84px, 10vw, 110px);
+  height: auto;
   display: block; overflow: visible;
 }
 .col-gold-fill   { fill: rgba(196,160,53,0.12); }
@@ -269,6 +272,8 @@ nav.scrolled {
 .colonnade-ground.visible { opacity: 1; }
 .pilar-label {
   margin-top: 1.2rem; text-align: center; padding: 0 0.5rem;
+  display: flex; flex-direction: column;
+  min-height: 120px;
 }
 .pilar-label .pnum {
   font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em;
@@ -282,6 +287,11 @@ nav.scrolled {
 .pilar-label .pdesc {
   font-size: 0.72rem; color: rgba(255,255,255,0.38);
   line-height: 1.6; font-weight: 300;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ── COMO TRABALHAMOS ────────────────────────────────── */
@@ -415,34 +425,82 @@ footer {
 }
 .reveal.visible { opacity: 1; transform: none; }
 
+/* ── COLONNADE DOTS (hidden on desktop) ──────────────── */
+.colonnade-dots { display: none; }
+
+/* ── FAB WHATSAPP (hidden on desktop) ───────────────── */
+.fab-wa { display: none; }
+
 /* ── MOBILE ──────────────────────────────────────────── */
 @media (max-width: 900px) {
   nav { padding: 1rem 1.5rem; }
   .nav-links, .nav-cta { display: none; }
   .hamburger { display: flex; }
 
-  #hero { grid-template-columns: 1fr; grid-template-rows: auto 45vh; }
-  .hero-left { padding: 7rem 2rem 2rem; }
+  /* Hero — canvas primeiro, texto depois */
+  #hero { grid-template-columns: 1fr; grid-template-rows: 45vh auto; height: auto; min-height: unset; }
+  .hero-right { grid-row: 1; height: 45vh; }
+  .hero-left  { grid-row: 2; padding: 2.5rem 1.75rem 3rem; }
   .hero-scroll-hint { left: 2rem; }
+  .hero-logo-img { height: 180px; }
+  .hero-logo-wrap { width: 220px; height: 220px; }
 
-  #quem-somos { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+  #problema { padding: 4rem 1.5rem; }
+
+  #quem-somos { grid-template-columns: 1fr; padding: 5rem 1.75rem; gap: 3rem; }
   .qs-visual { order: -1; }
 
-  #pilares { padding: 5rem 1rem; }
-  .colonnade { justify-content: flex-start; padding: 0 1rem 1rem; }
-  .pilar-col { min-width: 100px; }
+  /* Pilares — scroll-snap horizontal */
+  #pilares { padding: 4rem 0 3rem; }
+  .colonnade {
+    justify-content: flex-start;
+    padding: 0 1.5rem 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pilar-col {
+    flex-basis: 72vw; width: 72vw; max-width: 260px;
+    scroll-snap-align: center;
+  }
 
-  #como { padding: 5rem 1.5rem; }
+  /* Dots de progresso */
+  .colonnade-dots {
+    display: flex; justify-content: center; gap: 6px;
+    margin-top: 1.5rem; padding-bottom: 0.5rem;
+  }
+  .colonnade-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(196,160,53,0.25);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .colonnade-dot.active {
+    background: var(--classic-gold);
+    transform: scale(1.35);
+  }
+
+  #como { padding: 4.5rem 1.5rem; }
   .steps-wrap { flex-direction: column; align-items: center; gap: 2.5rem; }
   .step-item { width: 100%; max-width: 360px; }
   .step-line { display: none; }
 
-  .hero-logo-img { height: 180px; }
-  .hero-logo-wrap { width: 220px; height: 220px; }
+  #servicos { padding: 4.5rem 1.5rem; }
   .servicos-grid { grid-template-columns: 1fr; }
   .serv-card.featured { padding: 2.5rem 2rem; }
 
-  #cta-final { padding: 6rem 1.5rem; }
+  #cta-final { padding: 5rem 1.5rem; }
   footer { padding: 2.5rem 1.5rem; flex-direction: column; }
   .footer-contact { align-items: flex-start; }
+
+  /* Botão flutuante WhatsApp */
+  .fab-wa {
+    display: flex; align-items: center; gap: 0.5rem;
+    position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 190;
+    background: #25D366; color: white;
+    border-radius: 50px; padding: 0.75rem 1.25rem;
+    font-family: var(--font); font-weight: 600; font-size: 0.875rem;
+    text-decoration: none;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.45);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .fab-wa:hover { box-shadow: 0 4px 36px rgba(37,211,102,0.7); transform: translateY(-2px); }
 }

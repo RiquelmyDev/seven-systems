@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const PILARES = [
   { num: '01', name: 'Confiança',     desc: 'Só trabalhamos com quem acreditamos no produto.' },
@@ -51,6 +51,7 @@ export default function Pilares() {
   const colonnadRef = useRef(null)
   const groundRef = useRef(null)
   const sectionRef = useRef(null)
+  const [activeIdx, setActiveIdx] = useState(0)
 
   useEffect(() => {
     const colIO = new IntersectionObserver(entries => {
@@ -69,7 +70,23 @@ export default function Pilares() {
     }, { threshold: 0.12 })
     sectionRef.current.querySelectorAll('.reveal').forEach(el => titleIO.observe(el))
 
-    return () => { colIO.disconnect(); groundIO.disconnect(); titleIO.disconnect() }
+    const colEl = colonnadRef.current
+    const onScroll = () => {
+      const cols = [...colEl.querySelectorAll('.pilar-col')]
+      const center = colEl.scrollLeft + colEl.clientWidth / 2
+      let closest = 0, minDist = Infinity
+      cols.forEach((c, i) => {
+        const dist = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center)
+        if (dist < minDist) { minDist = dist; closest = i }
+      })
+      setActiveIdx(closest)
+    }
+    colEl.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      colIO.disconnect(); groundIO.disconnect(); titleIO.disconnect()
+      colEl.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   return (
@@ -93,6 +110,12 @@ export default function Pilares() {
       </div>
 
       <div className="colonnade-ground" ref={groundRef} />
+
+      <div className="colonnade-dots">
+        {PILARES.map((_, i) => (
+          <span key={i} className={`colonnade-dot${i === activeIdx ? ' active' : ''}`} />
+        ))}
+      </div>
     </section>
   )
 }
