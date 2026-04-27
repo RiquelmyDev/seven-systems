@@ -1,11 +1,11 @@
 export const WHATSAPP_NUMBER = '5533998542884'
 
 export const WHATSAPP_MESSAGES = {
-  generic: 'Olá! Vim pelo site da Seven Systems e quero conversar sobre meu projeto.',
-  navigation: 'Olá! Naveguei pelo site da Seven Systems e quero entender a melhor solução para meu negócio.',
-  hero: 'Olá! Vim da seção inicial e quero criar um site profissional para minha empresa.',
-  final: 'Olá! Cheguei ao final do site e quero receber uma proposta para meu negócio.',
-  footer: 'Olá! Quero falar com a Seven Systems sobre presença digital.',
+  generic: 'Ola! Vim pelo site da Seven Systems e quero entender como melhorar a presenca digital do meu negocio.',
+  navigation: 'Ola! Naveguei pelo site da Seven Systems e quero entender qual solucao faz mais sentido para o meu negocio.',
+  hero: 'Ola! Quero pedir uma analise da minha presenca digital.',
+  final: 'Ola! Quero conversar sobre como melhorar a apresentacao digital do meu negocio.',
+  footer: 'Ola! Quero falar com a Seven Systems sobre meu site e minha presenca digital.',
 }
 
 export function makeWhatsAppLink(message) {

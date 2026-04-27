@@ -7,12 +7,15 @@ export default function Hero() {
   const logoWrapRef = useRef(null)
   const heroRightRef = useRef(null)
   const sectionRef = useRef(null)
-  const [staticHero, setStaticHero] = useState(() => {
+  const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === 'undefined') return false
-    const mobile = window.matchMedia('(max-width: 900px)').matches
+    return window.matchMedia('(max-width: 900px)').matches
+  })
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window === 'undefined') return false
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const saveData = navigator.connection?.saveData ?? false
-    return mobile || reduceMotion || saveData
+    return reduceMotion || saveData
   })
 
   useEffect(() => {
@@ -20,7 +23,8 @@ export default function Hero() {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const updateMode = () => {
       const saveData = navigator.connection?.saveData ?? false
-      setStaticHero(mobileQuery.matches || motionQuery.matches || saveData)
+      setIsMobile(mobileQuery.matches)
+      setReducedMotion(motionQuery.matches || saveData)
     }
 
     updateMode()
@@ -33,7 +37,7 @@ export default function Hero() {
   }, [])
 
   useEffect(() => {
-    if (staticHero) return
+    if (reducedMotion) return
 
     const canvas = canvasRef.current
     let disposed = false
@@ -49,7 +53,7 @@ export default function Hero() {
         alpha: true,
         powerPreference: 'high-performance',
       })
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+      renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5))
       renderer.setClearColor(0x080808, 1)
 
       const scene = new THREE.Scene()
@@ -186,9 +190,10 @@ export default function Hero() {
         return { posA, pos, pT, pSpd, pRX, pRY, pRZ, dX, dY, dZ, n, points: pts }
       }
 
-      const lA = buildLayer(420, 0.18, 0.8, 2.0, 0.14, 0.3, colA, THREE.AdditiveBlending)
-      const lB = buildLayer(960, 0.65, 0.6, 1.6, 0.06, 0.14, colB, THREE.AdditiveBlending)
-      const lC = buildLayer(1800, 1.4, 0.4, 1.8, 0.5, 0.9, colC, THREE.NormalBlending, 0.14)
+      const layerScale = isMobile ? 0.35 : 1
+      const lA = buildLayer(Math.round(420 * layerScale), 0.18, 0.8, 2.0, 0.14, 0.3, colA, THREE.AdditiveBlending)
+      const lB = buildLayer(Math.round(960 * layerScale), 0.65, 0.6, 1.6, 0.06, 0.14, colB, THREE.AdditiveBlending)
+      const lC = buildLayer(Math.round(1800 * layerScale), 1.4, 0.4, 1.8, 0.5, 0.9, colC, THREE.NormalBlending, 0.14)
       lC.points.renderOrder = 0
       lB.points.renderOrder = 1
       lA.points.renderOrder = 2
@@ -213,7 +218,9 @@ export default function Hero() {
         rawM.x = (e.clientX / window.innerWidth - 0.5) * 2
         rawM.y = -(e.clientY / window.innerHeight - 0.5) * 2
       }
-      window.addEventListener('mousemove', onMouseMove)
+      if (!isMobile) {
+        window.addEventListener('mousemove', onMouseMove)
+      }
 
       function updateM3D() {
         _va.set(smlM.x, smlM.y, 0.5).unproject(camera)
@@ -290,7 +297,9 @@ export default function Hero() {
         cancelAnimationFrame(animId)
         visIO.disconnect()
         window.removeEventListener('resize', resize)
-        window.removeEventListener('mousemove', onMouseMove)
+        if (!isMobile) {
+          window.removeEventListener('mousemove', onMouseMove)
+        }
         renderer.dispose()
       }
     })()
@@ -299,10 +308,10 @@ export default function Hero() {
       disposed = true
       cleanup()
     }
-  }, [staticHero])
+  }, [isMobile, reducedMotion])
 
   useEffect(() => {
-    if (staticHero) return
+    if (reducedMotion) return
 
     const logoWrap = logoWrapRef.current
     const heroRight = heroRightRef.current
@@ -332,17 +341,17 @@ export default function Hero() {
       heroRight.removeEventListener('mousemove', onMove)
       heroRight.removeEventListener('mouseleave', onLeave)
     }
-  }, [staticHero])
+  }, [reducedMotion])
 
   return (
-    <section id="hero" ref={sectionRef} className={staticHero ? 'hero-static' : ''}>
+    <section id="hero" ref={sectionRef} className={reducedMotion ? 'hero-static' : ''}>
       <div className="hero-left">
         <div className="hero-eyebrow">Seven Systems</div>
         <h1 className="hero-headline">
-          Sua empresa<br />no digital.<br /><em>Do jeito certo.</em>
+          Seu negócio<br />mais forte online.<br /><em>Mais claro. Mais confiável. Mais escolhido.</em>
         </h1>
         <p className="hero-sub">
-          Criamos sites e soluções digitais para negócios locais que querem ser encontrados, lembrados e escolhidos.
+          Criamos páginas, sites e estruturas digitais para negócios locais que precisam transformar atenção em contato e contato em venda.
         </p>
         <div className="hero-btns">
           <a
@@ -351,14 +360,14 @@ export default function Hero() {
             rel="noreferrer"
             className="btn-primary"
           >
-            Falar com a gente
+            Pedir uma análise
           </a>
-          <a href="#servicos" className="btn-secondary">Conheça nosso trabalho</a>
+          <a href="#servicos" className="btn-secondary">Ver soluções</a>
         </div>
       </div>
 
-      <div className={`hero-right${staticHero ? ' is-static' : ''}`} ref={heroRightRef}>
-        {staticHero ? <div className="hero-static-bg" aria-hidden="true" /> : <canvas id="hero-canvas" ref={canvasRef} />}
+      <div className={`hero-right${reducedMotion ? ' is-static' : ''}`} ref={heroRightRef}>
+        {reducedMotion ? <div className="hero-static-bg" aria-hidden="true" /> : <canvas id="hero-canvas" ref={canvasRef} />}
         <div className="hero-logo-wrap" ref={logoWrapRef}>
           <img src={logo} alt="Seven Systems" className="hero-logo-img" />
         </div>

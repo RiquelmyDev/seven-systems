@@ -14,15 +14,15 @@ export default function CTAFinal() {
 
   return (
       <section id="cta-final" ref={ref}>
-      <h2 className="reveal">Pronto para ser encontrado?</h2>
-      <p className="reveal">Fale com a gente hoje. Sem compromisso, sem enrolação.</p>
+      <h2 className="reveal">Seu negócio já passa a imagem que deveria passar?</h2>
+      <p className="reveal">Se a resposta for não, a gente pode te mostrar por onde começar.</p>
       <a
         href={makeWhatsAppLink(WHATSAPP_MESSAGES.final)}
         target="_blank"
         rel="noreferrer"
         className="btn-primary reveal"
       >
-        Chamar no WhatsApp
+        Falar no WhatsApp
       </a>
     </section>
   )

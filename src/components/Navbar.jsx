@@ -32,7 +32,7 @@ export default function Navbar() {
           rel="noreferrer"
           className="nav-cta"
         >
-          Falar com a gente
+          Pedir análise
         </a>
         <button className="hamburger" onClick={() => setOpen(o => !o)} aria-label="Menu">
           <span /><span /><span />
@@ -51,7 +51,7 @@ export default function Navbar() {
           className="nav-cta"
           style={{ textAlign: 'center' }}
         >
-          Falar com a gente
+          Pedir análise
         </a>
       </div>
     </>

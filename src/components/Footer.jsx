@@ -6,7 +6,7 @@ export default function Footer() {
     <footer>
       <div className="footer-brand-col">
         <img src={logo} alt="Seven Systems" className="footer-logo-img" />
-        <div className="footer-tagline">Technology Platform</div>
+        <div className="footer-tagline">Presenca digital para negocios locais</div>
         <div className="footer-copy">© 2026 Seven Systems. Vale do Aço, MG.</div>
       </div>
       <ul className="footer-nav">

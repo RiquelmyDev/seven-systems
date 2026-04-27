@@ -14,10 +14,10 @@ export default function Problema() {
   return (
     <section id="problema" ref={ref}>
       <p className="prob-line">
-        "Seu cliente te procura no Google <span className="prob-accent">antes</span> de ligar."
+        "Hoje, a primeira impressão do seu negócio acontece no <span className="prob-accent">Google</span> e no celular."
       </p>
       <p className="prob-line">
-        "Se não encontra nada — ou encontra algo desatualizado — ele escolhe o concorrente."
+        "Quando essa experiência é confusa, fraca ou incompleta, você perde espaço para quem se apresenta melhor."
       </p>
     </section>
   )

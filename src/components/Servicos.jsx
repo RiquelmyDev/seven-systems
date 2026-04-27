@@ -5,61 +5,76 @@ const SERVICOS = [
   {
     badge: 'Entrada',
     name: 'Landing Page',
-    desc: 'Página enxuta para apresentar sua oferta principal com foco total em conversão.',
-    ideal: 'Negócios que precisam vender ou captar contatos com rapidez.',
+    desc: 'Página direta para destacar seu principal serviço e facilitar o contato de quem já chegou pronto para decidir.',
+    ideal: 'Negócios que precisam ganhar agilidade na captação e no agendamento.',
     details: [
-      'Ideal para apresentar um único serviço, campanha ou produto com clareza.',
-      'Estrutura objetiva com CTA, prova social, localização e acesso rápido ao WhatsApp.',
-      'Pensada para gerar contatos sem excesso de informação ou navegação complexa.',
+      'Boa para clínicas, consultórios e negócios locais que querem uma porta de entrada mais profissional.',
+      'Pode reunir prova social, localização, serviço principal e botão de contato em uma estrutura simples.',
+      'É a solução mais rápida para sair do improviso e começar a atender melhor quem chega pelo digital.',
     ],
-    msg: 'Olá! Tenho interesse na Landing Page da Seven Systems.',
+    msg: 'Olá! Tenho interesse em entender a Landing Page da Seven Systems para o meu negócio.',
   },
   {
     badge: 'Institucional',
     name: 'Site Institucional',
-    desc: 'Site completo para apresentar sua empresa, serviços, autoridade e canais de contato.',
-    ideal: 'Negócios que querem transmitir confiança e presença profissional.',
+    desc: 'Site completo para apresentar sua empresa com mais clareza, autoridade e organização.',
+    ideal: 'Negócios que precisam transmitir confiança antes mesmo do primeiro contato.',
     details: [
-      'Boa escolha para empresas que precisam de várias seções e narrativa institucional.',
-      'Pode incluir quem somos, serviços, diferenciais, depoimentos, contato e mapa.',
-      'Ajuda a organizar a presença digital e fortalecer a imagem da marca.',
+      'Indicado para quem tem mais de um serviço, precisa explicar melhor o que faz e quer parecer mais profissional.',
+      'Pode incluir apresentação da empresa, serviços, diferenciais, depoimentos, localização e contato.',
+      'Ajuda o cliente a entender o valor do negócio antes de chamar no WhatsApp.',
     ],
-    msg: 'Olá! Tenho interesse no Site Institucional da Seven Systems.',
+    msg: 'Olá! Tenho interesse em entender o Site Institucional da Seven Systems para a minha empresa.',
   },
   {
     badge: 'Completo',
     name: 'Presença Completa',
-    desc: 'Pacote para estruturar o site e organizar os pontos principais da presença digital.',
-    ideal: 'Negócios prontos para crescer com uma presença mais consistente.',
+    desc: 'Estrutura completa para organizar o site, os canais de contato e a imagem digital do negócio.',
+    ideal: 'Negócios que já entenderam que presença digital precisa virar resultado.',
     details: [
-      'Indicado para quem quer ir além do site e organizar o posicionamento digital.',
-      'Pode incluir orientação de presença no Google, redes sociais e fluxo de contato.',
-      'É o pacote mais indicado para consolidar a marca em um único ambiente digital.',
+      'Faz sentido para quem quer melhorar não só o visual, mas também a forma como o cliente encontra e entra em contato.',
+      'Pode envolver site, Google, fluxo de atendimento e ajustes nos principais pontos de conversão.',
+      'É a melhor opção para negócios que querem parar de parecer improvisados no digital.',
     ],
-    msg: 'Olá! Tenho interesse no pacote Presença Completa da Seven Systems.',
+    msg: 'Olá! Tenho interesse em entender a Presença Completa da Seven Systems para o meu negócio.',
   },
 ]
 
 export default function Servicos() {
   const ref = useRef(null)
   const [openIndex, setOpenIndex] = useState(null)
+  const [visibleCards, setVisibleCards] = useState([])
 
   useEffect(() => {
     const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
+      setVisibleCards(current => {
+        const next = new Set(current)
+        entries.forEach(e => {
+          const index = e.target.dataset.index
+          if (e.isIntersecting && index !== undefined) next.add(Number(index))
+        })
+        return [...next]
+      })
     }, { threshold: 0.12 })
-    ref.current.querySelectorAll('.reveal, .serv-card').forEach(el => io.observe(el))
+
+    const root = ref.current
+    if (!root) return undefined
+
+    root.querySelectorAll('.reveal').forEach(el => io.observe(el))
+    root.querySelectorAll('.serv-card').forEach(el => io.observe(el))
+
     return () => io.disconnect()
   }, [])
 
   return (
     <section id="servicos" ref={ref}>
-      <h2 className="section-title reveal">Serviços</h2>
+      <h2 className="section-title reveal">Soluções</h2>
       <div className="servicos-grid">
         {SERVICOS.map((s, i) => (
           <div
             key={s.name}
-            className={`serv-card${openIndex === i ? ' open' : ''}`}
+            data-index={i}
+            className={`serv-card${visibleCards.includes(i) ? ' visible' : ''}${openIndex === i ? ' open' : ''}`}
             style={{ transitionDelay: `${i * 0.12}s` }}
           >
             <div className="serv-badge">{s.badge}</div>
@@ -74,7 +89,7 @@ export default function Servicos() {
                 aria-expanded={openIndex === i}
                 aria-controls={`serv-details-${i}`}
               >
-                Ver detalhes
+                Entender melhor
               </button>
               <a
                 href={makeWhatsAppLink(s.msg)}
@@ -82,14 +97,14 @@ export default function Servicos() {
                 rel="noreferrer"
                 className="serv-btn serv-btn-primary"
               >
-                Quero esse
+                Falar sobre isso
               </a>
             </div>
             <div
               id={`serv-details-${i}`}
               className={`serv-details${openIndex === i ? ' open' : ''}`}
             >
-              <div className="serv-details-title">Como funciona este serviço</div>
+              <div className="serv-details-title">O que essa solução resolve</div>
               <ul>
                 {s.details.map(detail => (
                   <li key={detail}>{detail}</li>

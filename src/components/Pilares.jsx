@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
 const PILARES = [
-  { num: '01', name: 'Confiança',     desc: 'Só trabalhamos com quem acreditamos no produto.' },
-  { num: '02', name: 'Credibilidade', desc: 'Cada entrega faz o cliente do nosso cliente confiar naquele negócio.' },
-  { num: '03', name: 'Inovação',      desc: 'Soluções pensadas para o presente, construídas para o futuro.' },
-  { num: '04', name: 'Evolução',      desc: 'Quem entra na Seven Systems entra em digitalização contínua.' },
-  { num: '05', name: 'Estética',      desc: 'Design é argumento de venda, não decoração.' },
-  { num: '06', name: 'Facilidade',    desc: 'Tecnologia que ninguém usa não resolve nada.' },
-  { num: '07', name: 'Conexão',       desc: 'Conectar o negócio ao mundo digital, aos clientes, ao futuro.' },
+  { num: '01', name: 'Clareza', desc: 'Seu cliente precisa entender rápido o que você faz e por que deve escolher você.' },
+  { num: '02', name: 'Confiança', desc: 'Cada detalhe da apresentação digital precisa passar segurança.' },
+  { num: '03', name: 'Estética', desc: 'Visual bom não é enfeite. Ele valoriza o negócio e aumenta percepção de qualidade.' },
+  { num: '04', name: 'Conversão', desc: 'A presença digital precisa facilitar o próximo passo, não dificultar.' },
+  { num: '05', name: 'Estratégia', desc: 'Cada página e cada botão precisam ter motivo para existir.' },
+  { num: '06', name: 'Facilidade', desc: 'Se for complicado para o cliente ou para a equipe, não está resolvido.' },
+  { num: '07', name: 'Crescimento', desc: 'A estrutura precisa servir o momento atual e abrir espaço para a próxima fase.' },
 ]
 
 function ColumnSVG() {
@@ -93,7 +93,7 @@ export default function Pilares() {
     <section id="pilares" ref={sectionRef}>
       <div className="pilares-title reveal">
         <h2>Os 7 Pilares</h2>
-        <p>O que nos guia em cada projeto</p>
+        <p>O que sustenta cada projeto que entregamos</p>
       </div>
 
       <div className="colonnade" ref={colonnadRef}>

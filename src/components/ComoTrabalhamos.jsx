@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 
 const STEPS = [
-  { num: 1, title: 'Diagnóstico', desc: 'Entendemos o negócio, o público e o objetivo antes de qualquer linha de código.' },
-  { num: 2, title: 'Proposta',    desc: 'Apresentamos a solução certa, com escopo, prazo e investimento claros.' },
-  { num: 3, title: 'Execução',    desc: 'Desenvolvemos com atenção a cada detalhe — design, performance e usabilidade.' },
-  { num: 4, title: 'Entrega',     desc: 'Site no ar, cliente orientado, suporte garantido.' },
+  { num: 1, title: 'Análise', desc: 'Primeiro entendemos onde seu negócio está hoje e o que precisa melhorar para gerar mais resultado.' },
+  { num: 2, title: 'Direção', desc: 'Definimos a solução mais adequada, com escopo claro, prazo realista e investimento objetivo.' },
+  { num: 3, title: 'Construção', desc: 'Desenvolvemos com foco em clareza, confiança e facilidade para quem vai acessar.' },
+  { num: 4, title: 'Entrega', desc: 'Colocamos no ar, ajustamos o necessário e deixamos tudo pronto para você começar a usar.' },
 ]
 
 export default function ComoTrabalhamos() {
@@ -20,7 +20,7 @@ export default function ComoTrabalhamos() {
 
   return (
     <section id="como" ref={ref}>
-      <h2 className="section-title reveal">Como trabalhamos</h2>
+      <h2 className="section-title reveal">Como funciona</h2>
       <div className="steps-wrap">
         {STEPS.map((s, i) => (
           <div key={s.num} className="step-item" style={{ transitionDelay: `${i * 0.12}s` }}>
