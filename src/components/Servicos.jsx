@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { makeWhatsAppLink } from '../utils/whatsapp'
+import { makeWhatsAppLink, WHATSAPP_MESSAGES } from '../utils/whatsapp'
 
 const SERVICOS = [
   {
     badge: 'Entrada',
     name: 'Landing Page',
+    ctaLabel: 'Quero a Landing Page',
     desc: 'Página direta para destacar seu principal serviço e facilitar o contato de quem já chegou pronto para decidir.',
     ideal: 'Negócios que precisam ganhar agilidade na captação e no agendamento.',
     details: [
@@ -12,11 +13,12 @@ const SERVICOS = [
       'Pode reunir prova social, localização, serviço principal e botão de contato em uma estrutura simples.',
       'É a solução mais rápida para sair do improviso e começar a atender melhor quem chega pelo digital.',
     ],
-    msg: 'Olá! Tenho interesse em entender a Landing Page da Seven Systems para o meu negócio.',
+    msg: WHATSAPP_MESSAGES.landingPage,
   },
   {
     badge: 'Institucional',
     name: 'Site Institucional',
+    ctaLabel: 'Quero o Site Institucional',
     desc: 'Site completo para apresentar sua empresa com mais clareza, autoridade e organização.',
     ideal: 'Negócios que precisam transmitir confiança antes mesmo do primeiro contato.',
     details: [
@@ -24,11 +26,12 @@ const SERVICOS = [
       'Pode incluir apresentação da empresa, serviços, diferenciais, depoimentos, localização e contato.',
       'Ajuda o cliente a entender o valor do negócio antes de chamar no WhatsApp.',
     ],
-    msg: 'Olá! Tenho interesse em entender o Site Institucional da Seven Systems para a minha empresa.',
+    msg: WHATSAPP_MESSAGES.siteInstitucional,
   },
   {
     badge: 'Completo',
     name: 'Presença Completa',
+    ctaLabel: 'Quero a Presença Completa',
     desc: 'Estrutura completa para organizar o site, os canais de contato e a imagem digital do negócio.',
     ideal: 'Negócios que já entenderam que presença digital precisa virar resultado.',
     details: [
@@ -36,7 +39,7 @@ const SERVICOS = [
       'Pode envolver site, Google, fluxo de atendimento e ajustes nos principais pontos de conversão.',
       'É a melhor opção para negócios que querem parar de parecer improvisados no digital.',
     ],
-    msg: 'Olá! Tenho interesse em entender a Presença Completa da Seven Systems para o meu negócio.',
+    msg: WHATSAPP_MESSAGES.presencaCompleta,
   },
 ]
 
@@ -97,7 +100,7 @@ export default function Servicos() {
                 rel="noreferrer"
                 className="serv-btn serv-btn-primary"
               >
-                Falar sobre isso
+                {s.ctaLabel}
               </a>
             </div>
             <div

@@ -16,7 +16,7 @@ export default function Footer() {
         <li><a href="#servicos">Serviços</a></li>
       </ul>
       <div className="footer-contact">
-        <a href={makeWhatsAppLink(WHATSAPP_MESSAGES.footer)} target="_blank" rel="noreferrer">WhatsApp</a>
+        <a href={makeWhatsAppLink(WHATSAPP_MESSAGES.footer)} target="_blank" rel="noreferrer">Falar com a Seven Systems</a>
         <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
       </div>
     </footer>

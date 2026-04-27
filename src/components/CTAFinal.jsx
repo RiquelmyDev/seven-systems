@@ -22,7 +22,7 @@ export default function CTAFinal() {
         rel="noreferrer"
         className="btn-primary reveal"
       >
-        Falar no WhatsApp
+        Quero uma proposta
       </a>
     </section>
   )

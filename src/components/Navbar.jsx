@@ -32,7 +32,7 @@ export default function Navbar() {
           rel="noreferrer"
           className="nav-cta"
         >
-          Pedir análise
+          Pedir análise do negócio
         </a>
         <button className="hamburger" onClick={() => setOpen(o => !o)} aria-label="Menu">
           <span /><span /><span />
@@ -51,7 +51,7 @@ export default function Navbar() {
           className="nav-cta"
           style={{ textAlign: 'center' }}
         >
-          Pedir análise
+          Pedir análise do negócio
         </a>
       </div>
     </>
