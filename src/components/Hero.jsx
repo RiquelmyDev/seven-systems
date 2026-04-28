@@ -36,8 +36,11 @@ export default function Hero() {
     }
   }, [])
 
+  // Skip Three.js entirely on mobile — too heavy, causes crashes
+  const skipCanvas = reducedMotion || isMobile
+
   useEffect(() => {
-    if (reducedMotion) return
+    if (skipCanvas) return
 
     const canvas = canvasRef.current
     let disposed = false
@@ -308,10 +311,10 @@ export default function Hero() {
       disposed = true
       cleanup()
     }
-  }, [isMobile, reducedMotion])
+  }, [isMobile, reducedMotion, skipCanvas])
 
   useEffect(() => {
-    if (reducedMotion) return
+    if (skipCanvas) return
 
     const logoWrap = logoWrapRef.current
     const heroRight = heroRightRef.current
@@ -344,11 +347,13 @@ export default function Hero() {
   }, [reducedMotion])
 
   return (
-    <section id="hero" ref={sectionRef} className={reducedMotion ? 'hero-static' : ''}>
+    <section id="hero" ref={sectionRef} className={skipCanvas ? 'hero-static' : ''}>
       <div className="hero-left">
         <div className="hero-eyebrow">Seven Systems</div>
         <h1 className="hero-headline">
-          Seu negócio<br />mais forte online.<br /><em>Mais claro. Mais confiável. Mais escolhido.</em>
+          <span>Seu negócio</span><br />
+          <span>mais forte online.</span><br />
+          <em>Mais claro. Mais confiável. Mais escolhido.</em>
         </h1>
         <p className="hero-sub">
           Criamos páginas, sites e estruturas digitais para negócios locais que precisam transformar atenção em contato e contato em venda.
@@ -364,16 +369,16 @@ export default function Hero() {
           </a>
           <a href="#servicos" className="btn-secondary">Ver soluções</a>
         </div>
+        <div className="hero-scroll-hint">scroll</div>
       </div>
 
-      <div className={`hero-right${reducedMotion ? ' is-static' : ''}`} ref={heroRightRef}>
-        {reducedMotion ? <div className="hero-static-bg" aria-hidden="true" /> : <canvas id="hero-canvas" ref={canvasRef} />}
+      <div className={`hero-right${skipCanvas ? ' is-static' : ''}`} ref={heroRightRef}>
+        {skipCanvas ? <div className="hero-static-bg" aria-hidden="true" /> : <canvas id="hero-canvas" ref={canvasRef} />}
         <div className="hero-logo-wrap" ref={logoWrapRef}>
           <img src={logo} alt="Seven Systems" className="hero-logo-img" />
         </div>
       </div>
 
-      <div className="hero-scroll-hint">scroll</div>
     </section>
   )
 }

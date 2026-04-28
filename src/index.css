@@ -23,6 +23,11 @@ nav {
   padding: 1.25rem 4rem;
   transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
   border-bottom: 1px solid transparent;
+  animation: navReveal 1s cubic-bezier(.22,1,.36,1) backwards;
+}
+@keyframes navReveal {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 nav.scrolled {
   background: rgba(8,8,8,0.82);
@@ -41,9 +46,27 @@ nav.scrolled {
 .nav-links a {
   color: rgba(255,255,255,0.6); text-decoration: none;
   font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em;
-  transition: color 0.2s;
+  transition: color 0.3s ease;
+  position: relative;
+  padding: 0.2rem 0;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--purple);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(.22,1,.36,1);
 }
 .nav-links a:hover { color: white; }
+.nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 .nav-cta {
   background: var(--purple); color: white; border: none;
   padding: 0.6rem 1.5rem; border-radius: 7px;
@@ -96,6 +119,23 @@ nav.scrolled {
   font-style: italic; font-weight: 700;
   color: var(--purple);
   text-shadow: 0 0 30px rgba(155,48,255,0.5);
+  display: inline-block;
+}
+
+/* Staggered Entrance */
+.hero-left > * {
+  animation: heroReveal 1s cubic-bezier(.22,1,.36,1) backwards;
+}
+.hero-eyebrow { animation-delay: 0.1s; }
+.hero-headline span:nth-of-type(1) { display: inline-block; animation: heroReveal 1s cubic-bezier(.22,1,.36,1) 0.2s backwards; }
+.hero-headline span:nth-of-type(2) { display: inline-block; animation: heroReveal 1s cubic-bezier(.22,1,.36,1) 0.3s backwards; }
+.hero-headline em { animation-delay: 0.4s; }
+.hero-sub { animation-delay: 0.5s; }
+.hero-btns { animation-delay: 0.6s; }
+
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .hero-sub {
   font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.58);
@@ -110,7 +150,10 @@ nav.scrolled {
   box-shadow: 0 0 28px rgba(155,48,255,0.5);
   transition: box-shadow 0.25s, transform 0.2s;
 }
-.btn-primary:hover { box-shadow: 0 0 46px rgba(155,48,255,0.85); transform: translateY(-2px); }
+.btn-primary:hover { 
+  box-shadow: 0 0 46px rgba(155,48,255,0.85), 0 0 15px rgba(155,48,255,0.4); 
+  transform: translateY(-3px); 
+}
 .btn-secondary {
   background: transparent; color: white;
   border: 1px solid rgba(255,255,255,0.2);
@@ -119,7 +162,12 @@ nav.scrolled {
   cursor: pointer; text-decoration: none; display: inline-block;
   transition: border-color 0.2s, color 0.2s;
 }
-.btn-secondary:hover { border-color: var(--purple); color: var(--purple); }
+.btn-secondary:hover { 
+  border-color: var(--purple); 
+  color: var(--purple); 
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(155,48,255,0.1);
+}
 .hero-right { position: relative; overflow: hidden; }
 #hero-canvas { width: 100%; height: 100%; display: block; position: relative; z-index: 0; }
 .hero-right.is-static {
@@ -155,7 +203,13 @@ nav.scrolled {
           drop-shadow(0 0 18px rgba(155,48,255,0.9))
           drop-shadow(0 0 40px rgba(123,0,255,0.6));
   animation: logoPulse 3s ease-in-out infinite;
-  transition: filter 0.15s ease-out;
+  transition: filter 0.3s ease-out, transform 0.3s ease-out;
+}
+.hero-logo-img:hover {
+  transform: scale(1.03);
+  filter: saturate(0.8) brightness(2) contrast(0.9)
+          drop-shadow(0 0 25px rgba(155,48,255,1))
+          drop-shadow(0 0 50px rgba(123,0,255,0.7));
 }
 @keyframes logoPulse {
   0%,100% {
@@ -173,7 +227,7 @@ nav.scrolled {
   }
 }
 .hero-scroll-hint {
-  position: absolute; bottom: 2.5rem; left: 5rem;
+  position: absolute; bottom: 2.5rem; left: 0;
   font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
   color: rgba(255,255,255,0.2); display: flex; align-items: center; gap: 0.6rem;
   animation: hint-fade 2.5s ease-in-out infinite; z-index: 2;
@@ -181,10 +235,15 @@ nav.scrolled {
 .hero-scroll-hint::before {
   content: ''; width: 1px; height: 30px;
   background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.25));
-  animation: hint-grow 2.5s ease-in-out infinite;
+  animation: hint-line-flow 2.5s ease-in-out infinite;
 }
-@keyframes hint-fade { 0%,100%{opacity:0.4} 50%{opacity:1} }
-@keyframes hint-grow { 0%,100%{transform:scaleY(0.5)} 50%{transform:scaleY(1)} }
+@keyframes hint-fade { 0%,100%{opacity:0.25} 50%{opacity:0.7} }
+@keyframes hint-line-flow {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45%, 55% { transform: scaleY(1); transform-origin: top; }
+  60% { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
 
 /* ── PROBLEMA ────────────────────────────────────────── */
 #problema {
@@ -276,6 +335,17 @@ nav.scrolled {
                    filter: drop-shadow(0 0 4px rgba(196,160,53,0.55)); }
 .col-gold-line   { stroke: rgba(196,160,53,0.35); stroke-width: 0.8; fill: none; }
 .col-gold-dark   { fill: rgba(196,160,53,0.06); }
+
+/* Build-up animation for pillars */
+.pilar-col .col-svg {
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform 1.2s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: inherit;
+}
+.pilar-col.visible .col-svg {
+  transform: scaleY(1);
+}
 .colonnade-ground {
   height: 2px;
   background: linear-gradient(90deg,
@@ -352,7 +422,11 @@ nav.scrolled {
   transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1), box-shadow 0.3s, border-color 0.3s;
 }
 .serv-card.visible { opacity: 1; transform: translateY(0); }
-.serv-card:hover { border-color: rgba(255,255,255,0.18); }
+.serv-card:hover { 
+  border-color: rgba(155,48,255,0.3); 
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(155,48,255,0.08);
+}
 .serv-card.open {
   border-color: rgba(155,48,255,0.36);
   box-shadow: 0 0 40px rgba(155,48,255,0.12), 0 0 0 1px rgba(155,48,255,0.16);
@@ -518,34 +592,69 @@ footer {
   /* Hero — canvas primeiro, texto depois */
   #hero { 
     grid-template-columns: 1fr; 
-    grid-template-rows: 35vh 1fr; 
-    height: 100svh; 
-    min-height: 620px; 
+    grid-template-rows: 280px auto; 
+    height: auto; 
+    min-height: unset;
+    overflow: hidden;
   }
-  .hero-right { grid-row: 1; height: 35vh; }
+  .hero-right { grid-row: 1; height: 280px; }
   .hero-left { 
     grid-row: 2; 
-    padding: 1rem 1.75rem 4.5rem; 
+    padding: 2rem 1.75rem 3.5rem; 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    position: relative;
   }
-  .hero-scroll-hint { left: 1.75rem; bottom: 1.25rem; }
-  .hero-headline { font-size: clamp(1.8rem, 8vw, 2.3rem); margin-bottom: 1rem; }
-  .hero-sub { margin-bottom: 2rem; font-size: 0.9rem; }
-  .hero-eyebrow { margin-bottom: 0.8rem; }
-  .hero-btns { flex-direction: column; width: 100%; gap: 1rem; }
+  .hero-scroll-hint { 
+    position: relative;
+    bottom: unset; 
+    left: unset;
+    margin-top: 2rem;
+    align-self: flex-start;
+  }
+  .hero-headline { font-size: clamp(1.75rem, 7.5vw, 2.2rem); margin-bottom: 1rem; }
+  .hero-sub { margin-bottom: 1.5rem; font-size: 0.875rem; line-height: 1.7; }
+  .hero-eyebrow { margin-bottom: 0.75rem; }
+  .hero-btns { flex-direction: column; width: 100%; gap: 0.875rem; }
   .hero-btns a { width: 100%; justify-content: center; text-align: center; }
   .hero-logo-img { height: 180px; }
   .hero-logo-wrap { width: 220px; height: 220px; }
   .hero-right.is-static { overflow: hidden; }
+  .hero-right.is-static .hero-static-bg {
+    background:
+      radial-gradient(circle at 50% 40%, rgba(155,48,255,0.22) 0%, transparent 50%),
+      radial-gradient(circle at 60% 55%, rgba(123,0,255,0.15) 0%, transparent 45%),
+      radial-gradient(circle at 38% 48%, rgba(201,168,76,0.06) 0%, transparent 35%),
+      radial-gradient(ellipse 120% 80% at 50% 50%, rgba(155,48,255,0.08) 0%, transparent 70%);
+    filter: blur(12px);
+    animation: staticBgPulse 6s ease-in-out infinite;
+  }
+  @keyframes staticBgPulse {
+    0%,100% { opacity: 0.85; }
+    50% { opacity: 1; }
+  }
   .hero-right.is-static .hero-logo-wrap { transform: translate(-50%, -50%) scale(0.92); }
   .hero-right.is-static .hero-logo-img {
-    animation: none;
-    opacity: 0.9;
-    filter: saturate(0.7) brightness(1.7) contrast(0.9)
-            drop-shadow(0 0 14px rgba(155,48,255,0.75))
-            drop-shadow(0 0 30px rgba(123,0,255,0.45));
+    animation: logoGentleGlow 5s ease-in-out infinite;
+    opacity: 0.88;
+    filter: saturate(0.6) brightness(1.7) contrast(0.9)
+            drop-shadow(0 0 14px rgba(155,48,255,0.7))
+            drop-shadow(0 0 28px rgba(123,0,255,0.4));
+  }
+  @keyframes logoGentleGlow {
+    0%,100% {
+      opacity: 0.85;
+      filter: saturate(0.6) brightness(1.7) contrast(0.9)
+              drop-shadow(0 0 14px rgba(155,48,255,0.7))
+              drop-shadow(0 0 28px rgba(123,0,255,0.4));
+    }
+    50% {
+      opacity: 0.92;
+      filter: saturate(0.65) brightness(1.85) contrast(0.88)
+              drop-shadow(0 0 18px rgba(155,48,255,0.8))
+              drop-shadow(0 0 36px rgba(123,0,255,0.5));
+    }
   }
 
   #problema { padding: 4rem 1.5rem; }
